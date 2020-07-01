@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+<!-- Start of commande module -->
+    
+     <package name="prc" namespace="/prc" extends="p2c-default">
+
+
+<!-- NEW -->
+		<action name="*" >
+			<result name="success" type="redirect">/prc/home</result>
+		</action>
+		<action name="home" method="list" class="com.p2c.obj.control.ProcessAction">
+			<result name="success">/jsp/prc/home.jsp</result>
+		</action>
+		<action name="listProcessReader" method="listProcessReader" class="com.p2c.obj.control.ProcessAction">
+			<result name="success">/jsp/prc/process/list_reader.jsp</result>
+		</action>
+		
+		<action name="changeRefprocess" method="changeRefprocess" class="com.p2c.obj.control.ProcessAction">
+			<result name="success">/jsp/prc/home.jsp</result>
+		</action>
+
+		<!-- CRUD PROCESS : BENGIN -->
+		<action name="processPopulate" method="populate" class="com.p2c.obj.control.ProcessAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result name="success" >/jsp/prc/process/form.jsp</result>
+		</action>
+		<action name="processCreate" method="create" class="com.p2c.obj.control.ProcessAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+			<result name="success" >/jsp/prc/process/champs.jsp</result>
+			<result name="nodynfield" >/jsp/prc/process/form2.jsp</result>
+			<result name="dentiste2" >/jsp/prc/process/dentiste2.jsp</result>
+		    <result name="input" >/jsp/prc/process/form.jsp</result>
+		</action>
+		<action name="processCreateStep2" method="createStep2" class="com.p2c.obj.control.ProcessAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result name="input" >/jsp/prc/process/champs.jsp</result>
+			<result name="success" >/jsp/prc/process/form2.jsp</result>
+			<result name="dentiste2" >/jsp/prc/process/dentiste2.jsp</result>
+		</action>
+		<action name="getDentiste2Contenu" method="getDentiste2Contenu" class="com.p2c.obj.control.ProcessAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="success" >/jsp/prc/process/dentiste2_secteur.jsp</result>
+		</action>
+
+
+
+		<action name="processDelete" method="delete" class="com.p2c.obj.control.ProcessAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+			<result name="success">/jsp/close.jsp</result>
+		</action>
+		<action name="processUpdate" method="update" class="com.p2c.obj.control.ProcessAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result name="success" >/jsp/prc/process/update.jsp</result>
+		</action>
+		<action name="processSave" method="save" class="com.p2c.obj.control.ProcessAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result name="input" >/jsp/prc/process/update.jsp</result>
+			<result name="success" >/jsp/prc/process/update_champs.jsp</result>
+			<result name="dentiste2" >/jsp/prc/process/dentiste2.jsp</result>
+			<result name="nodynfield" >/jsp/prc/process/form2.jsp</result>
+			<result name="success2">/jsp/prc/home.jsp</result>
+		</action>
+		<action name="processSaveStep2" method="saveStep2" class="com.p2c.obj.control.ProcessAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result name="input" >/jsp/prc/process/update_champs.jsp</result>
+			<result name="success" >/jsp/prc/process/form2.jsp</result>
+			<result name="dentiste2" >/jsp/prc/activity/list.jsp</result>		
+		</action>
+		<action name="processSave2" method="print" class="com.p2c.obj.control.ProcessAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+			<result name="dentiste2" >/jsp/prc/process/dentiste2.jsp</result>
+		</action>
+		<action name="processPrint" method="print" class="com.p2c.obj.control.ProcessAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+			<result name="dentiste2" >/jsp/prc/process/print_dentiste2.jsp</result>
+		</action>
+
+
+
+		<action name="phaseList" method="list" class="com.p2c.obj.control.PhaseAction">
+		    <result name="success" >/jsp/prc/activity/list.jsp</result>
+		</action>
+		<action name="phaseUpdate" method="update" class="com.p2c.obj.control.PhaseAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result name="success" >/jsp/prc/activity/list.jsp</result>
+		    <result name="active" >/jsp/blanc.jsp</result>
+		</action>
+		<action name="activityUpdate" method="updateStatus" class="com.p2c.obj.control.PhaseAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result name="success" >/jsp/prc/activity/donestatus.jsp</result>
+		</action>
+
+
+		<action name="taskList" method="list" class="com.p2c.obj.control.TacheAction">
+		    <result name="success" >/jsp/prc/task/list.jsp</result>
+		</action>
+		<action name="taskDetailsList" method="toUpdateFull" class="com.p2c.obj.control.TacheAction">
+		    <result name="success" >/jsp/prc/task/list_details_task.jsp</result>
+		</action>
+		<action name="taskListReader" method="taskListReader" class="com.p2c.obj.control.TacheAction">
+		    <result name="success" >/jsp/prc/task/list_reader.jsp</result>
+		</action>
+		<action name="taskToAdd" method="toAdd" class="com.p2c.obj.control.TacheAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/task/form.jsp</result>
+		</action>
+		<action name="taskAdd" method="add" class="com.p2c.obj.control.TacheAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/task/done.jsp</result>
+		</action>
+		<action name="taskToUpdateowner" method="toUpdate" class="com.p2c.obj.control.TacheAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/task/change_owner.jsp</result>
+		</action>
+		<action name="taskToRename" method="toUpdate" class="com.p2c.obj.control.TacheAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/task/rename_tache.jsp</result>
+		</action>
+		<action name="taskUpdate" method="update" class="com.p2c.obj.control.TacheAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/task/done.jsp</result>
+		</action>
+		<action name="taskUpdateMontant" method="updateMontant" class="com.p2c.obj.control.TacheAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/task/done.jsp</result>
+		</action>
+		<action name="taskUpdateStatus" method="update" class="com.p2c.obj.control.TacheAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/task/donestatus.jsp</result>
+		</action>
+		<action name="taskToPriv" method="populate" class="com.p2c.obj.control.TacheAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+			<result name="success">/jsp/prc/task/privatize_tache.jsp</result>
+		</action>
+		<action name="taskToDelete" method="populate" class="com.p2c.obj.control.TacheAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+			<result name="success">/jsp/prc/task/delete_tache.jsp</result>
+		</action>
+		<action name="taskDelete" method="delete" class="com.p2c.obj.control.TacheAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+			<result name="success">/jsp/prc/task/done.jsp</result>
+		</action>
+		<action name="taskOrder" method="taskOrder" class="com.p2c.obj.control.TacheAction">
+		    <result name="success" >/jsp/prc/task/list.jsp</result>
+		</action>
+
+
+		<action name="champsToUpdate" method="list" class="com.p2c.obj.control.ChampsAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result name="success" >/jsp/prc/process/champs.jsp</result>
+		    <result name="active" >/jsp/blanc.jsp</result>
+		</action>
+		<action name="champsUpdate" method="update" class="com.p2c.obj.control.ChampsAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result name="success" >/jsp/blanc.jsp</result>
+		    <result name="active" >/jsp/blanc.jsp</result>
+		</action>
+
+<!-- GESTION DES ETAPES -->
+		<action name="etapeList" method="list" class="com.p2c.obj.control.EtapeAction">
+		    <result name="success" >/jsp/prc/step/list.jsp</result>
+		</action>
+		<action name="etapeListByTache" method="listByTache" class="com.p2c.obj.control.EtapeAction">
+		    <result name="success" >/jsp/prc/step/list.jsp</result>
+		</action>
+		<action name="dentsListByTache" method="dentsListByTache" class="com.p2c.obj.control.EtapeAction">
+		    <result name="success" >/jsp/prc/step/list_dents.jsp</result>
+		</action>
+		<action name="dureeByTache" method="getDureeByTache" class="com.p2c.obj.control.EtapeAction">
+		    <result name="success" >/jsp/prc/step/sum_duree.jsp</result>
+		</action>
+		<action name="delaiByTache" method="getDelaiByTache" class="com.p2c.obj.control.EtapeAction">
+		    <result name="success" >/jsp/prc/step/sum_delai.jsp</result>
+		</action>
+		<action name="addActeDent" method="addActeDent" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/restore.jsp</result>
+		</action>
+		<action name="addActeDent3" method="addActeDent3" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/restore.jsp</result>
+		</action>
+		<action name="acteToAdd" method="acteToAdd" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/task/form_act.jsp</result>
+		</action>
+		<action name="addActeDent2" method="addActeDent2" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/task/done.jsp</result>
+		</action>
+		<action name="etapesToUpdate" method="etapesToUpdate" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/task/update.jsp</result>
+		</action>
+		<action name="updateEtape" method="updateEtape" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/task/update.jsp</result>
+		</action>
+		<action name="updateEtapeDelai" method="updateEtapeDelai" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/task/update.jsp</result>
+		</action>
+		<action name="updateEtapeDuree" method="updateEtapeDuree" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/task/update.jsp</result>
+		</action>
+		<action name="updateEtapeDent" method="updateEtapeDent" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/task/update.jsp</result>
+		</action>
+		<action name="deleteEtape" method="deleteEtape" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/task/update.jsp</result>
+		</action>
+
+		<action name="delActeDent" method="delActeDent" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/restore.jsp</result>
+		</action>
+		<action name="delActeDent2" method="delActeDent2" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/restore.jsp</result>
+		</action>
+		<action name="delActeDent3" method="delActeDent3" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/restore.jsp</result>
+		</action>
+
+		<action name="populateEtape" method="populate" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/process/dentiste2.jsp</result>
+		</action>
+		<action name="populateFamille" method="populateFamille" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/process/dentiste3.jsp</result>
+		</action>
+
+		<action name="updateOrdrefamille" method="updateOrdrefamille" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/process/dentiste3.jsp</result>
+		</action>
+
+		<action name="populateSeance" method="populateSeance" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/process/dentiste4.jsp</result>
+		</action>
+
+		<action name="setResponsableSeance" method="setResponsableSeance" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/process/dentiste4.jsp</result>
+		</action>
+
+		<action name="setSeanceActe" method="setSeanceActe" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/process/dentiste4.jsp</result>
+		</action>
+
+		<action name="taskGroup" method="taskGroup" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="denied"  >/jsp/prc/denied.jsp</result>
+		    <result  name="success" >/jsp/prc/task/done.jsp</result>
+		</action>
+
+
+
+
+<!-- OLD -->
+
+		<action name="listDiv" method="list" class="com.p2c.obj.control.ProcessAction">
+		    <result name="success" >/jsp/prc/process/list.jsp</result>
+		    
+		</action>
+
+		<!-- CRUD PROCESS : BENGIN -->
+
+
+
+
+		<action name="activityList" method="list" class="com.p2c.obj.control.PhaseAction">
+		    <result name="success" >/jsp/prc/activity/list.jsp</result>
+		</action>
+
+
+
+
+    </package>  
+
+ <!-- Start of admin mgt -->
+
+   <package name="administration" namespace="/adm" extends="p2c-default">
+
+		<action name="home" method="listAll" class="com.p2c.obj.control.CompteAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="success">/jsp/ref/home.jsp</result>
+		</action>
+
+		<action name="listU" method="listAll" class="com.p2c.obj.control.CompteAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">full</param></interceptor-ref>	
+			<result name="success">/jsp/ref/list_user.jsp</result>
+		</action>
+
+		<action name="delete" method="deleteUser" class="com.p2c.obj.control.CompteAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">full</param></interceptor-ref>	
+			<result name="success">/jsp/ref/list_user.jsp</result>
+		</action>
+
+		<action name="todel" method="readUser" class="com.p2c.obj.control.CompteAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">full</param></interceptor-ref>	
+			<result name="success">/jsp/ref/delete_user.jsp</result>
+		</action>
+
+		<action name="toUpdate" method="readUser" class="com.p2c.obj.control.CompteAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">full</param></interceptor-ref>	
+			<result name="success">/jsp/ref/form_user.jsp</result>
+		</action>
+
+		<action name="update" method="update" class="com.p2c.obj.control.CompteAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">full</param></interceptor-ref>	
+			<result name="success">/jsp/ref/done.jsp</result>
+			<result name="input">/jsp/ref/form_user.jsp</result>
+		</action>
+
+		<action name="updateP" method="initpwd" class="com.p2c.obj.control.CompteAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">full</param></interceptor-ref>	
+			<result name="success">/jsp/ref/done.jsp</result>
+			<result name="input">/jsp/ref/form_user.jsp</result>
+		</action>
+ 
+ 		<action name="toAdd" method="populate" class="com.p2c.obj.control.CompteAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">full</param></interceptor-ref>	
+			<result name="success">/jsp/ref/add.jsp</result>
+		</action>
+
+		<action name="add" method="addUser" class="com.p2c.obj.control.CompteAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">full</param></interceptor-ref>	
+			<result name="success">/jsp/ref/done.jsp</result>
+			<result name="input">/jsp/ref/add.jsp</result>
+		</action>
+		<action name="addUserAndProgramme" method="addUserAndProgramme" class="com.p2c.obj.control.CompteAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="success">/jsp/ref/list_program.jsp</result>
+			<result name="input">/jsp/ref/add_program.jsp</result>
+		</action>
+		<action name="addUserUpdateProgram" method="addUserUpdateProgram" class="com.p2c.obj.control.CompteAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONDUCTEUR</param></interceptor-ref>	
+			<result name="success">/jsp/ref/list_program.jsp</result>
+			<result name="input">/jsp/ref/list_program.jsp</result>
+		</action>
+
+		<action name="list_ratios" method="list_ratios" class="com.p2c.obj.control.ObjetAction">
+			<result name="success">/jsp/auth/list_ratios.jsp</result>
+			<result name="input">/jsp/auth/list_ratios.jsp</result>
+		</action>
+
+		<action name="list_ratios2" method="list_ratios2" class="com.p2c.obj.control.ObjetAction">
+			<result name="success">/jsp/auth/list_ratios.jsp</result>
+			<result name="input">/jsp/auth/list_ratios.jsp</result>
+		</action>
+
+		<action name="update_ratio" method="update_ratio" class="com.p2c.obj.control.ObjetAction">
+			<result name="success">/jsp/auth/list_ratios.jsp</result>
+			<result name="input">/jsp/auth/list_ratios.jsp</result>
+		</action>
+
+ 	</package>
+ 
+     <package name="tdb" namespace="/tdb" extends="p2c-default">
+
+		<action name="*">
+			<result name="success" >/jsp/tdb/home.jsp</result>
+		</action>
+		<action name="home" method="listTdbByDateLate" class="com.p2c.obj.control.TacheAction">
+			<result name="success" >/jsp/tdb/home.jsp</result>
+		</action>
+		<action name="lateTsk" method="listTdbByDateLate" class="com.p2c.obj.control.TacheAction">
+			<result name="success" >/jsp/tdb/list_todo_late.jsp</result>
+		</action>
+		<action name="todayTsk" method="listTdbByDateToday" class="com.p2c.obj.control.TacheAction">
+			<result name="success" >/jsp/tdb/list_todo_today.jsp</result>
+		</action>
+		<action name="lateTodoTsk" method="listTdbByDateLate" class="com.p2c.obj.control.TacheAction">
+			<result name="success" >/jsp/tdb/list_todo_late2.jsp</result>
+		</action>
+		<action name="todayTodoTsk" method="listTdbByDateToday" class="com.p2c.obj.control.TacheAction">
+			<result name="success" >/jsp/tdb/list_todo_today2.jsp</result>
+		</action>
+		<action name="futureTsk" method="listTdbByDateFuture" class="com.p2c.obj.control.TacheAction">
+			<result name="success" >/jsp/tdb/list_todo_future.jsp</result>
+		</action>
+
+<!-- KPI tableaux de bords -->
+
+		<action name="Kpis_dentiste" method="Kpis_dentiste" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+		    <result name="success" >/jsp/tdb/dr_personal_kpis.jsp</result>
+		</action>
+		<action name="KpiHPJournee" method="KpiHPJournee" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+		    <result name="success" >/jsp/tdb/kpi_HPJournee.jsp</result>
+		</action>
+		<action name="KpiDureePlanTTT" method="KpiDureePlanTTT" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+		    <result name="success" >/jsp/tdb/kpi_DureePlanTTT.jsp</result>
+		</action>
+		<action name="KpiHonoProgPatient" method="KpiHonoProgPatient" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+		    <result name="success" >/jsp/tdb/kpi_HonoProgPatient.jsp</result>
+		</action>
+		<action name="KpiHonoProgJournee" method="KpiHonoProgJournee" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+		    <result name="success" >/jsp/tdb/kpi_HonoProgJournee.jsp</result>
+		</action>
+		<action name="KpiHonoProg7NextDays" method="KpiHonoProg7NextDays" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+		    <result name="success" >/jsp/tdb/kpi_HonoProg7NextDays.jsp</result>
+		</action>
+		<action name="KpiHonoProg7PreviousDays" method="KpiHonoProg7PreviousDays" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+		    <result name="success" >/jsp/tdb/kpi_HonoProg7PreviousDays.jsp</result>
+		</action>
+		<action name="KpiCAProdTache" method="KpiCAProdTache" class="com.p2c.obj.control.EtapeAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+		    <result name="success" >/jsp/tdb/kpi_CAProdTache.jsp</result>
+		</action>
+		<action name="KpiMontantDevis" method="KpiMontantDevis" class="com.p2c.obj.control.ProcessAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+		    <result name="success" >/jsp/tdb/kpi_MontantDevis.jsp</result>
+		</action>
+		<action name="KpiDevisSigne" method="KpiDevisSigne" class="com.p2c.obj.control.ProcessAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+		    <result name="success" >/jsp/tdb/kpi_DevisSigne.jsp</result>
+		</action>
+		<action name="HPJourneeDR" method="HPJourneeDR" class="com.p2c.obj.control.CompteAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+		    <result name="success" >/jsp/tdb/kpi_HPJourneeDR.jsp</result>
+		</action>
+		<action name="HPSemaineDR" method="HPSemaineDR" class="com.p2c.obj.control.CompteAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+		    <result name="success" >/jsp/tdb/kpi_HPSemaineDR.jsp</result>
+		</action>
+
+		<action name="listDevisZero" method="listDevisZero" class="com.p2c.obj.control.ProcessAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+		    <result name="success" >/jsp/tdb/list_DevisZero.jsp</result>
+		</action>
+		<action name="listDevisNonSigne" method="listDevisNonSigne" class="com.p2c.obj.control.ProcessAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+		    <result name="success" >/jsp/tdb/list_DevisZero.jsp</result>
+		</action>
+		<action name="listDettesPatient" method="list" class="com.p2c.obj.control.ProcessAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+		    <result name="success" >/jsp/tdb/list_DettesPatient.jsp</result>
+		</action>
+		<action name="listEntenteFin" method="list" class="com.p2c.obj.control.ProcessAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+		    <result name="success" >/jsp/tdb/list_EntenteFin.jsp</result>
+		</action>
+		<action name="listEntenteFin2" method="listProcess" class="com.p2c.obj.control.ObjetAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+		    <result name="success" >/jsp/tdb/list_EntenteFin2.jsp</result>
+		</action>
+		<action name="listEntenteFin3" method="listEntenteFin3" class="com.p2c.obj.control.TacheAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+		    <result name="success" >/jsp/tdb/list_EntenteFin3.jsp</result>
+		</action>
+		<action name="KpiMontantPaiements" method="KpiMontantPaiements" class="com.p2c.obj.control.ProcessAction">
+	        <interceptor-ref name="ProfileCheckerStack" ><param name="ProfileChecker.profile">CONTRIBUTEUR</param></interceptor-ref>	
+		    <result name="success" >/jsp/tdb/kpi_MontantPaiements.jsp</result>
+		</action>
+
+	</package> 
+
+     <package name="cnt" namespace="/cnt" extends="p2c-default">
+
+		<action name="*" >
+			<result name="success" >/jsp/cnt/home.jsp</result>
+		</action>
+	</package> 
+
+<!-- Start of logger module -->
+    
+     <package name="event" namespace="/event" extends="p2c-default">
+
+		<action name="*" >
+			<result name="success" type="redirect">/event/wall</result>
+		</action>
+		
+		<action name="wall" method="list" class="com.p2c.obj.control.PostAction">
+			<result name="success">/jsp/wall/home.jsp</result>
+		</action>
+		<action name="wallListReader" method="wallListReader" class="com.p2c.obj.control.PostAction">
+			<result name="success">/jsp/wall/list_reader.jsp</result>
+		</action>
+		<action name="filtre" method="list" class="com.p2c.obj.control.PostAction">
+			<result name="success">/jsp/wall/list.jsp</result>
+		</action>
+
+
+		<action name="add" method="addComent" class="com.p2c.obj.control.PostAction">
+			<result name="input">/jsp/wall/form.jsp</result>
+			<result name="success">/jsp/close.jsp</result>
+		</action>
+		<action name="addReader" method="addComent" class="com.p2c.obj.control.PostAction">
+			<result name="input">/jsp/wall/form_reader.jsp</result>
+			<result name="success">/jsp/close.jsp</result>
+		</action>
+
+	</package> 
+
+<!-- End of logger module -->
+
+<!-- Start of todo module -->
+    
+     <package name="todo" namespace="/todo" extends="p2c-default">
+
+		<action name="*" >
+			<result name="success" type="redirect">/todo/home</result>
+		</action>
+		
+		<action name="list" method="list" class="com.p2c.obj.control.TodoAction">
+			<result name="success">/jsp/todo/list.jsp</result>
+		</action>
+		<action name="toAdd" method="toAdd" class="com.p2c.obj.control.TodoAction">
+			<result name="success" >/jsp/todo/form.jsp</result>
+		</action>
+
+		<action name="add" method="add" class="com.p2c.obj.control.TodoAction">
+			<result name="success">/jsp/todo/close.jsp</result>
+			<result name="input" >/jsp/todo/form.jsp</result>
+		</action>
+
+		<action name="update" method="update" class="com.p2c.obj.control.TodoAction">
+			<result name="success">/jsp/todo/list.jsp</result>
+		</action>
+
+	</package> 
+
+<!-- End of todo module -->
+
+     <package name="profile" namespace="/profile" extends="p2c-default">
+
+		<action name="home" method="populate" class="com.p2c.session.LoginAction">
+			<result name="success" >/jsp/auth/profile.jsp</result>
+		</action>
+
+		<action name="update" method="update" class="com.p2c.session.LoginAction">
+			<result name="success" >/jsp/auth/profile.jsp</result>
+			<result name="input" >/jsp/auth/profile.jsp</result>
+		</action>
+
+		<action name="updateP" method="updatepwd" class="com.p2c.session.LoginAction">
+			<result name="success" >/jsp/auth/profile.jsp</result>
+			<result name="input" >/jsp/auth/profile.jsp</result>
+		</action>
+
+	</package> 
+
+     <package name="fileupload" namespace="/ged" extends="p2c-default">
+		<action name="upload" method="upload" class="com.p2c.obj.control.FileUploadAction">
+			<result name="success">/jsp/prc/ged/done.jsp </result>
+			<result name="input">/jsp/prc/ged/done.jsp </result>
+		</action>
+		
+		<action name="download" method="download" class="com.p2c.obj.control.FileUploadAction">
+			<result name="success" type="stream">
+	  			<param name="contentType">${fileContentType}</param>
+	  			<param name="inputName">fileInputStream</param>
+	  			<param name="contentDisposition">attachment;filename=${fileFileName}</param>
+	  			<param name="bufferSize">1024</param>
+			</result>
+   </action>
+		<action name="delete" method="remove" class="com.p2c.obj.control.FileUploadAction">
+			<result name="success">/jsp/prc/ged/done.jsp </result>
+		</action>
+
+
+		<action name="gedList" method="list" class="com.p2c.obj.control.FileUploadAction">
+		    <result name="success" >/jsp/prc/ged/list.jsp</result>
+		</action>
+
+	</package>
+
+</struts>
