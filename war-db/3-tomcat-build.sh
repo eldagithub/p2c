@@ -7,5 +7,13 @@ MAINTAINER elmos
 COPY pabfr.war /opt/apache-tomcat-7.0.62/webapps/
 " > target/Dockerfile
 
-docker image build -f target/Dockerfile -t pabfr/image ./src/
+docker image build -f target/Dockerfile -t pabwar ./src/
+
+docker save pabwar:latest -o target/pabwar-dockimages.tar
+
+
+echo docker rmi `docker images pabwar -q`
+docker stop `docker ps -q -f "name=webhost"`
+docker rm `docker ps -q -f "name=webhost"`
+docker rmi `docker images pabwar -q`
 
