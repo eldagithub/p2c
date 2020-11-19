@@ -1,1 +1,13 @@
-docker run -d --rm --name host8090 -h host8090 -p 8090:8080 pabfr/image
+
+if ! [ "$1" -ge 1024 ] 2>/dev/null
+then
+    PORT="8080"
+else
+    PORT=$1
+fi
+
+
+docker load -i target/pabwar-dockimages.tar
+
+echo docker run -d  --name webhost$PORT -h webhost$PORT -p $PORT:8080 pabwar
+docker run -d  --name webhost$PORT -h webhost$PORT -p $PORT:8080 pabwar
