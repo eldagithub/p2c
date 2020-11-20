@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory> 
+
+	<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+
+<!-- sncf2   -->
+    <property name="hibernate.connection.url">jdbc:mysql://debianbox:3306/pvb</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">pass</property>
+
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="connection.autoReconnect">true</property>
+    <property name="connection.autoReconnectForPools">true</property>
+
+        <property name="hibernate.c3p0.acquire_increment">1</property>
+        <property name="hibernate.c3p0.idle_test_period">100</property><!-- seconds -->
+        <property name="hibernate.c3p0.max_size">100</property><!-- Taille maximale du pool -->
+        <property name="hibernate.c3p0.min_size">10</property><!-- Taille minimale du pool -->
+        <property name="hibernate.c3p0.timeout">0</property><!-- seconds / 0 =jamais-->
+        <property name="hibernate.c3p0.max_statements">0</property><!-- Taille du cache de statements de C3P0. 0 = désactive le cache -->
+
+    <property name="show_sql">true</property>
+	<!-- property name="hbm2ddl.auto">update</property> -->
+	<mapping class="com.p2c.obj.model.Process" />
+	<mapping class="com.p2c.obj.model.RefProcess" />
+	<mapping class="com.p2c.obj.model.Phase" />
+	<mapping class="com.p2c.obj.model.RefPhase" />
+	<mapping class="com.p2c.obj.model.Tache" />
+	<mapping class="com.p2c.obj.model.RefTache" />
+	<mapping class="com.p2c.obj.model.Champs" />
+	<mapping class="com.p2c.obj.model.RefChamps" />
+
+	<mapping class="com.p2c.obj.model.Etape" />
+	<mapping class="com.p2c.obj.model.RefEtape" />
+
+	<mapping class="com.p2c.obj.model.Objet" />
+	<mapping class="com.p2c.obj.model.User" />
+	<mapping class="com.p2c.obj.model.Log" />
+	<mapping class="com.p2c.obj.model.Todo" />
+
+	<mapping class="com.p2c.obj.model.Gedo" />
+    
+	</session-factory>
+</hibernate-configuration>
