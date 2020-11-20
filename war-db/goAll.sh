@@ -1,18 +1,19 @@
 #./0-docker-install.sh
-echo ./1-buildDB.sh
+clear ; echo ./1-buildDB.sh
 ./1-buildDB.sh
 
-echo ./2-db-init.sh
+clear ; echo ./2-db-init.sh
 ./2-db-init.sh
 
-echo ./3-tomcat-build.sh
+clear ; echo ./3-tomcat-build.sh
 ./3-tomcat-build.sh
 
-echo ./4-tomcat-run.sh
+clear ; echo ./4-tomcat-run.sh
 ./4-tomcat-run.sh
 
-echo ./5-tomcat-test.sh
+sleep 10
+clear ; echo ./5-tomcat-test.sh
 ./5-tomcat-test.sh
 
-#echo ./6-tomcat-stop.sh
+#clear ; echo ./6-tomcat-stop.sh
 #./6-tomcat-stop.sh
