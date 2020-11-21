@@ -41,4 +41,8 @@ curl -fsSL get.docker.com -o get-docker.sh
 
 chmod u+x ./get-docker.sh
 
-./get-docker.sh
+sudo ./get-docker.sh
+
+sudo systemctl start docker
+sudo usermod -aG docker $USER
+
