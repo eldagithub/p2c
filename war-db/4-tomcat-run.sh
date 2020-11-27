@@ -7,7 +7,7 @@ else
 fi
 
 
-docker load -i target/pabwar-dockimages.tar
+#docker load -i target/pabwar-dockimages.tar
 
 echo docker run -d  --name webhost$PORT -h webhost$PORT -p $PORT:8080 pabwar
 docker run -d  --name webhost$PORT -h webhost$PORT --add-host=mosmysqldb:172.17.0.1 -p $PORT:8080 pabwar
