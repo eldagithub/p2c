@@ -15,22 +15,22 @@ ret=$?;if [ ! $ret = 0 ]; then exit $ret; fi
 
 sleep 5  ; echo ./2-db-init.sh
 ./2-db-init.sh
-ret=$?;if [ ! $ret = 0 ]; then exit $ret; fi
+#ret=$?;if [ ! $ret = 0 ]; then exit $ret; fi
 
 
 sleep 5  ; echo ./3-tomcat-build.sh
 ./3-tomcat-build.sh
-ret=$?;if [ ! $ret = 0 ]; then exit $ret; fi
+#ret=$?;if [ ! $ret = 0 ]; then exit $ret; fi
 
 
 sleep 5  ; echo ./4-tomcat-run.sh
 ./4-tomcat-run.sh
-ret=$?;if [ ! $ret = 0 ]; then exit $ret; fi
+#ret=$?;if [ ! $ret = 0 ]; then exit $ret; fi
 
 
 sleep 15 ; clear  ; echo ./5-tomcat-test.sh
 ./5-tomcat-test.sh
-ret=$?;if [ ! $ret = 0 ]; then exit $ret; fi
+#ret=$?;if [ ! $ret = 0 ]; then exit $ret; fi
 
 #sleep 5  ; echo ./6-tomcat-stop.sh
 #./6-tomcat-stop.sh
