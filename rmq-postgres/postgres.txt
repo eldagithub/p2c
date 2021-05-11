@@ -1,0 +1,42 @@
+https://towardsdatascience.com/local-development-set-up-of-postgresql-with-docker-c022632f13ea
+
+mkdir -p postgres/data
+
+docker pull postgres
+
+
+
+
+ docker run -d \
+	--name dev-postgres \
+	-e POSTGRES_PASSWORD=xxxxxxxx \
+	-v ${HOME}/work/postgres/data/:/var/lib/postgresql/data \
+        -p 5432:5432 postgres
+
+
+docker exec -it dev-postgres bash
+psql -h localhost -U postgres
+\l
+
+
+on debian :
+docker pull dpage/pgadmin4
+
+docker run -p 8880:80 -e 'PGADMIN_DEFAULT_EMAIL=user@domain.local'  -e 'PGADMIN_DEFAULT_PASSWORD=pass2021' --name dev-pgadmin -d dpage/pgadmin4
+
+
+CREATE ROLE pepitapp2 WITH
+	LOGIN
+	NOSUPERUSER
+	CREATEDB
+	NOCREATEROLE
+	INHERIT
+	NOREPLICATION
+	CONNECTION LIMIT -1
+	PASSWORD 'xxxxxx';
+
+create database pepitdb;
+create user pepitdbuser with encrypted password 'pepitdbuserpass2021';
+grant all privileges on database pepitdb to pepitdbuser;
+REVOKE ALL PRIVILEGES ON DATABASE postgres FROM pepitdbuser;
+
