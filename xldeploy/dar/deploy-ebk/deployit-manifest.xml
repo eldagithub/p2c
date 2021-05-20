@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<udm.DeploymentPackage version="deploy-ebk.0.0.5" application="WWW">
+  <application />
+  <orchestrator />
+  <deployables>
+    <www.WebContent name="/webcontent1" file="/webcontent1/html">
+      <tags>
+        <value>www-html</value>
+      </tags>
+      <scanPlaceholders>true</scanPlaceholders>
+      <preScannedPlaceholders>true</preScannedPlaceholders>
+      <placeholders>
+        <value>DB_USERNAME</value>
+        <value>db.usr.pwd</value>
+      </placeholders> 
+      <checksum>6745596f97baab813376443a84777355594398165fee70da95b76dc034241071</checksum>
+      <fileEncodings>
+        <entry key=".+\.properties">ISO-8859-1</entry>
+      </fileEncodings>
+      <isRescanned>false</isRescanned>
+    </www.WebContent>
+  </deployables>
+  <applicationDependencies />
+  <dependencyResolution>LATEST</dependencyResolution>
+  <undeployDependencies>false</undeployDependencies>
+  <templates />
+  <boundTemplates />
+</udm.DeploymentPackage>
