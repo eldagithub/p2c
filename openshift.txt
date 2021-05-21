@@ -1,0 +1,58 @@
+Web console --> mon login > get login > display token :
+
+oc login --token=sha256~qWDlrwK2x6-OIt5Flc1Vxchz-f9d2g-WU_o8TEom7zs --server=https://api.sandbox-m2.ll9k.p1.openshiftapps.com:6443
+
+
+oc login --token=sha256~tXNV78oAwftBFC2uvruUuhPt82GmcloT05l0im-Lw-g --server=https://api.sandbox-m2.ll9k.p1.openshiftapps.com:6443
+
+
+
+oc get pods -o wide
+
+oc logs cakephp-ex-1-deploy
+
+oc project
+
+oc status
+
+oc api-resources
+
+oc help
+oc -h
+
+oc explain pods
+
+oc logout
+
+oc get all -l env=production --all-namespaces
+
+oc get all -l env=production --namespace=elmoselmos-dev
+
+oc get quota --namespace=elmoselmos-dev
+
+oc get nodes,pods
+
+oc get endpoints
+
+oc get services
+
+oc get routes
+
+oc create -f gluster-storage-class.yaml
+
+gluster-storage-class.yam :
+apiVersion: storage.k8s.io/v1beta1
+kind: StorageClass
+metadata:
+  name: gluster-heketi  
+provisioner: kubernetes.io/glusterfs  
+ parameters:
+  endpoint: "heketi-storage-endpoints"  
+  resturl: "http://10.42.0.0:8080"  
+  restuser: "joe"  
+  restuserkey: "My Secret Life"  
+
+oc get pv
+
+
+
