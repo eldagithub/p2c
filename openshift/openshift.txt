@@ -1,0 +1,102 @@
+https://github.com/jharting/openshift-rabbitmq-cluster/blob/master/rabbitmq-cluster-template.yaml
+
+Web console --> mon login > get login > display token :
+
+oc login --token=sha256~qWDlrwK2x6-OIt5Flc1Vxchz-f9d2g-WU_o8TEom7zs --server=https://api.sandbox-m2.ll9k.p1.openshiftapps.com:6443
+
+
+oc login --token=sha256~tXNV78oAwftBFC2uvruUuhPt82GmcloT05l0im-Lw-g --server=https://api.sandbox-m2.ll9k.p1.openshiftapps.com:6443
+
+
+
+oc get pods -o wide
+
+oc logs cakephp-ex-1-deploy
+
+oc project
+
+oc status
+
+oc api-resources
+
+oc help
+oc -h
+
+oc explain pods
+
+oc logout
+
+oc get all -l env=production --all-namespaces
+
+oc get all -l env=production --namespace=elmoselmos-dev
+
+oc get quota --namespace=elmoselmos-dev
+
+oc get nodes,pods
+
+oc get endpoints
+
+oc get services
+
+oc get routes
+
+oc create -f gluster-storage-class.yaml
+
+gluster-storage-class.yam :
+apiVersion: storage.k8s.io/v1beta1
+kind: StorageClass
+metadata:
+  name: gluster-heketi  
+provisioner: kubernetes.io/glusterfs  
+ parameters:
+  endpoint: "heketi-storage-endpoints"  
+  resturl: "http://10.42.0.0:8080"  
+  restuser: "joe"  
+  restuserkey: "My Secret Life"  
+
+oc get pv
+------------------
+azure
+
+az aro create \
+  --resource-group $RESOURCEGROUP \
+  --name $CLUSTER \
+  --vnet aro-vnet \
+  --master-subnet master-subnet \
+  --worker-subnet worker-subnet --pull-secret @pull-secret.txt
+
+---------------------------
+https://gist.github.com/rafaeltuelho/111850b0db31106a4d12a186e1fbc53e#file-openshift-cheatsheet-md https://hub.docker.com/search?q=rabbitmq&type=image&architecture=ppc64le 
+
+oc project 
+oc get all -I env=production--all-namespaces 
+
+oc status 
+oc new-app openshift/deployment-example:v1 --name=example-blue 
+oc new-app openshift/deployment-example:v2 - name=example-green 
+OC expose svc/example-blue--name=bluegreen-example 
+oc get pods curl -X GET https://myregistry:5000/v2/catalog 
+oc new-app -search ruby 
+oc new-app -search rabbitma 
+oc new-app - search --image-stream rabbitma 
+oc new-app -search -docker-image rabbitmg 
+oc get clusterversion 
+oc get nodes 
+oc adm top nodes 
+oc cluster-info 
+oc get pods 
+oc adm top nodes 
+oc create deployment rabbitmg -image rabbitmq:3.8.15-alpine history 
+oc get pods 
+oc expose svc/rabbitmg--name=rabbitmg 
+oc get svc o get sec example-blue 
+oc get sc example-green 
+oc get apps 
+oc get all 
+oc config view 
+oc status 
+oc create service -h 
+
+
+
+oc describe pod/pi
