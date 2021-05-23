@@ -122,6 +122,7 @@ oc get templates -n openshift -o custom-columns=NAME:.metadata.name|grep -i ^pos
 oc describe pod/pi
 oc process -f rabbitmq-cluster-template.yaml NAMESPACE="$(oc project --short)" | oc create -f -
 
+#https://docs.openshift.com/dedicated/3/admin_guide/assembly_backing-up-restoring-project-application.html
 mkdir save
 cd save
 for object in $(oc api-resources --namespaced=true -o name)
