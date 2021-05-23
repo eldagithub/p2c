@@ -1,46 +1,37 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx
+  name: nginxmos
   labels:
-    app: nginx
+    app: nginxmos
 spec:
   ports:
   - port: 80
     name: web
   clusterIP: None
   selector:
-    app: nginx
+    app: nginxmos
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: web
+  name: webmos
 spec:
-  serviceName: "nginx"
+  serviceName: "nginxmos"
   replicas: 2
   selector:
     matchLabels:
-      app: nginx
+      app: nginxmos
   template:
     metadata:
       labels:
-        app: nginx
+        app: nginxmos
     spec:
       containers:
-      - name: nginx
-        image: k8s.gcr.io/nginx-slim:0.8
+      - name: nginxmos
+        image: bitnami/nginx:latest
+
         ports:
         - containerPort: 80
-          name: web
-        volumeMounts:
-        - name: www
-          mountPath: /usr/share/nginx/html
-  volumeClaimTemplates:
-  - metadata:
-      name: www
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 1Gi
+          name: webmosport
+ 

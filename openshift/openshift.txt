@@ -97,6 +97,36 @@ oc config view
 oc status 
 oc create service -h 
 
+oc get pods -w
+oc status
+oc get is
+oc logs web-0
+oc delete StatefulSet web
+
+oc get event -R
+
+oc exec web-0 -i -t -- ls -tlr /var/log/nginx
+oc exec web-0 -i -t -- curl 10.128.13.197:8080
+
+
+oc debug $POD_NAME --as-root
+
+oc get pod -o wide
+oc get service
+oc describe pvc mos-postgres-pvc
+
+oc get templates -n openshift -o custom-columns=NAME:.metadata.name|grep -i ^postgres
+
 
 
 oc describe pod/pi
+oc process -f rabbitmq-cluster-template.yaml NAMESPACE="$(oc project --short)" | oc create -f -
+
+mkdir save
+cd save
+for object in $(oc api-resources --namespaced=true -o name)
+do
+  oc get -o yaml  $object > $object.yaml
+done
+
+
