@@ -1,3 +1,5 @@
+https://events.redhat.com/accounts/register123/redhat/events/7013a000002dbroaa4/Kubernetes_Design_Patterns.pdf
+
 https://github.com/jharting/openshift-rabbitmq-cluster/blob/master/rabbitmq-cluster-template.yaml
 
 Web console --> mon login > get login > display token :
@@ -114,6 +116,19 @@ oc debug $POD_NAME --as-root
 oc get pod -o wide
 oc get service
 oc describe pvc mos-postgres-pvc
+oc project elmoselmos-stage
+oc project
+oc config view
+oc apply -f mongo-express.yaml
+
+oc whoami -t
+
+
+oc get pods --watch
+oc get pods
+oc logs 
+
+
 
 oc get templates -n openshift -o custom-columns=NAME:.metadata.name|grep -i ^postgres
 

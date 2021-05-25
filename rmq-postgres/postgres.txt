@@ -5,6 +5,15 @@ mkdir -p postgres/data
 docker pull postgres
 
 
+docker run -d -name dev-pepit-postgres -e POSTGRES_PASSWORD=mXdYp2021??? -v ${HOME}/apps/postgres/data/:/var/lib/postgresg!/data -p 5432:5432 ekpivm1022.ch.pbk:8282/docker.io/postgres:9.6.21-alpine 
+
+create database pepitdb; 
+create user pepitdbuser with encrypted password 'pXeYpZitdbuser-21'; 
+grant all privileges on database pepitdb to pepitdbuser; 
+REVOKE ALL PRIVILEGES ON DATABASE postgres FROM pepitdbuser; 
+
+https://github.com/eldagithub/p2c/blob/maste/Trmq-postgres/postgres.txt
+
 
 
  docker run -d \
@@ -17,6 +26,8 @@ docker pull postgres
 docker exec -it dev-postgres bash
 psql -h localhost -U postgres
 \l
+\du+ 
+\q 
 
 
 on debian :
@@ -39,4 +50,5 @@ create database pepitdb;
 create user pepitdbuser with encrypted password 'pepitdbuserpass2021';
 grant all privileges on database pepitdb to pepitdbuser;
 REVOKE ALL PRIVILEGES ON DATABASE postgres FROM pepitdbuser;
+
 

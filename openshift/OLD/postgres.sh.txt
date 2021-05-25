@@ -1,0 +1,141 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mos-postgres-pvc
+spec:
+  storageClassName: gp2
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: task-pv-pod
+spec:
+  volumes:
+    - name: task-pv-storage
+      persistentVolumeClaim:
+        claimName: task-pv-claim
+  containers:
+    - name: task-pv-container
+      image: nginx
+      ports:
+        - containerPort: 80
+          name: "http-server"
+      volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: task-pv-storage
+
+oc new-app -e \
+    POSTGRESQL_USER=elmos,POSTGRESQL_PASSWORD=pass,POSTGRESQL_DATABASE=dbname> \
+    registry.access.redhat.com/rhscl/postgresql-94-rhel7
+
+-------------------------------
+
+Echo -n 'passwdmmm' |base64 > password.txt
+-------------------------------
+
+
+echo postgres123 > password1.txt
+
+tr -d '\n' < password1.txt >  password.txt
+
+oc create secret generic postgres-pass --from-file=password.txt
+
+cat > pvc.yaml <<EOF
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mos-postgres-pvc
+  labels:
+    name: postgresmos
+spec:
+  storageClassName: gp2
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+EOF
+
+oc apply -f pvc.yaml
+
+
+
+
+cat > postgres-app.yaml <<EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresmos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresmos
+  template:
+    metadata:
+      labels:
+        app: postgresmos
+    spec:
+      containers:
+      - name: postgresmos
+        image: postgres:9.5
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_USER
+          value:  
+        - name: PGUSER
+          value: pgbench
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-pass
+              key: password.txt
+        - name: PGBENCH_PASSWORD
+          value: superpostgres
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: postgredb
+      volumes:
+      - name: postgredb
+        persistentVolumeClaim:
+          claimName: mos-postgres-pvc
+EOF
+
+
+
+
+oc apply -f postgres-app.yaml
+
+oc get pods -l app=postgresmos -o wide --watch
+
+VOL=`oc get pvc | grep mos-postgres-pvc | awk '{print $3}'`
+
+oc create -f - <<INGRESS
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql-ingress
+spec:
+  ports:
+  - name: postgresqlmos
+    port: 5432
+  type: LoadBalancer 
+  selector:
+    app: postgresmos
+INGRESS
+
+oc expose svc postgresql-ingress
+
+
+#PX_POD=$(oc get pods -l name=portworx -n kube-system -o jsonpath='{.items[0].metadata.name}')
+#$ oc exec -it $PX_POD -n kube-system -- /opt/pwx/bin/pxctl volume inspect ${VOL}

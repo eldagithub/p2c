@@ -1,0 +1,171 @@
+oc apply -f - <<SECRETandPVC
+kind: Secret
+apiVersion: v1
+metadata:
+  annotations:
+    template.openshift.io/expose-database_name: '{.data[''database-name'']}'
+    template.openshift.io/expose-password: '{.data[''database-password'']}'
+    template.openshift.io/expose-username: '{.data[''database-user'']}'
+  name: postgresql-secret
+  labels:
+    template: postgresql-ephemeral-template
+data:
+  database-name: bW9zZGI=
+  database-password: ZWxtb3N1c2VycHdk
+  database-user: ZWxtb3N1c2Vy
+type: Opaque
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgresqlelmospvc
+spec:
+  storageClassName: gp2
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+SECRETandPVC
+------------------------
+kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  name: postgresqlelmos
+  generation: 2
+  labels:
+    template: postgresqlelmos-persistent-template
+spec:
+  replicas: 1
+  selector:
+    name: postgresqlelmos
+  template:
+    metadata:
+      labels:
+        name: postgresqlelmos
+        
+    spec:
+      volumes:
+        - name: postgresqlelmos-data
+          persistentVolumeClaim:
+            claimName: postgresqlelmospvc
+      containers:
+        - resources:
+            limits:
+              memory: 512Mi
+          readinessProbe:
+            exec:
+              command:
+                - /usr/libexec/check-container
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          terminationMessagePath: /dev/termination-log
+          name: postgresqlelmos
+          livenessProbe:
+            exec:
+              command:
+                - /usr/libexec/check-container
+                - '--live'
+            initialDelaySeconds: 120
+            timeoutSeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          env:
+            - name: POSTGRESQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: database-user
+            - name: POSTGRESQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: database-password
+            - name: POSTGRESQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: database-name
+          securityContext:
+            capabilities: {}
+            privileged: false
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: postgresqlelmos-data
+              mountPath: /var/lib/pgsql/data
+          terminationMessagePolicy: File
+          image: >-
+            image-registry.openshift-image-registry.svc:5000/openshift/postgresql@sha256:a49b7d567962fae7cb0749a11f81dc8a0c9470a909a56b81da49240f55aea5de
+
+------------------------
+oc apply -f - <<LBINTERNET
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql-ingress
+spec:
+  ports:
+  - name: postgresqlmos
+    protocol: TCP
+    port: 5432
+    targetPort: 5432
+    nodePort: 30604
+  type: LoadBalancer 
+  selector:
+    name: postgresqlelmos
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: postgresql-ingress
+  annotations:
+    openshift.io/host.generated: 'true'
+spec:
+  to:
+    kind: Service
+    name: postgresql-ingress
+    weight: 100
+  port:
+    targetPort: postgresqlmos
+  wildcardPolicy: None
+
+LBINTERNET
+
+## oc get service -o wide
+# NAME                 TYPE           CLUSTER-IP       EXTERNAL-IP                                                               PORT(S)          AGE     SELECTOR
+# parksmap             ClusterIP      172.30.228.126   <none>                                                                    8080/TCP         2d20h   app=parksmap,deploymentconfig=parksmap
+# postgresql-ingress   LoadBalancer   172.30.5.91      a779a912b453340b6b5158536c26b54f-1585636070.us-east-2.elb.amazonaws.com   5432:30604/TCP   27s     name=postgresqlelmos
+
+##  oc get endpoints -o wide
+# NAME                 ENDPOINTS   AGE
+# parksmap             <none>      2d20h
+# postgresql-ingress   <none>      37s
+
+##  oc get endpoints -o wide
+# NAME                 ENDPOINTS          AGE
+# parksmap             <none>             2d20h
+# postgresql-ingress   10.128.13.1:5432   3m33s
+
+
+#oc expose svc postgresql-ingress
+
+
+
+
+# psql -h localhost -U postgres
+# \l
+# \du+ 
+# \q 
+create database pepitdb;
+create user pepitdbuser with encrypted password 'pepitdbuserpass2021';
+grant all privileges on database pepitdb to pepitdbuser;
+REVOKE ALL PRIVILEGES ON DATABASE postgres FROM pepitdbuser;
